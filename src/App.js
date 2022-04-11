@@ -8,12 +8,13 @@ import Footer from "./Pages/Shared/Footer/Footer";
 function App() {
   return (
     <div className="App">
-      <Header />
+      <Header></Header>
+      <Home></Home>
       <Routes>
-        <Route to="/" element={<Home />} />
-        <Route to="/about" element={<About />} />
+        <Route to="/" element={<Home></Home>}></Route>
+        <Route to="/about" element={<About></About>}></Route>
       </Routes>
-      <Footer />
+      <Footer></Footer>
     </div>
   );
 }
