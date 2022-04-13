@@ -5,8 +5,16 @@ import Experts from "../../Home/Experts/Experts";
 import Services from "../../Home/Services/Services";
 import logo from "../../../images/logo.png";
 import { Link } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../../firebase.init";
+import { signOut } from "firebase/auth";
 
 const Header = () => {
+  const [user] = useAuthState(auth);
+
+  const logout = () => {
+    signOut(auth);
+  };
   return (
     <>
       <Navbar
@@ -14,7 +22,7 @@ const Header = () => {
         sticky="top"
         expand="lg"
         bg="primary"
-        variant="dark"
+        // variant="dark"
       >
         <Container>
           <Navbar.Brand as={Link} to="/">
@@ -43,9 +51,15 @@ const Header = () => {
               <Nav.Link as={Link} to="about">
                 About
               </Nav.Link>
-              <Nav.Link eventKey={2} href="/login">
-                Login
-              </Nav.Link>
+              {user ? (
+                <button onClick={logout} className="btn text-white">
+                  Log out
+                </button>
+              ) : (
+                <Nav.Link eventKey={2} href="/login">
+                  Login
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

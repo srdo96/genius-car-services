@@ -11,6 +11,7 @@ const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
+  console.log("Loading", loading);
   if (user) {
     navigate("/");
   }
@@ -53,6 +54,7 @@ const Login = () => {
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
           <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
+        {loading && <p>Loading...</p>}
         <Button variant="primary" type="submit">
           Login
         </Button>
