@@ -25,7 +25,7 @@ const Header = () => {
         // variant="dark"
       >
         <Container>
-          <Navbar.Brand as={Link} to="/">
+          <Navbar.Brand as={Link} to="/home">
             <img height={30} src={logo} alt="" />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -56,7 +56,7 @@ const Header = () => {
                   Log out
                 </button>
               ) : (
-                <Nav.Link eventKey={2} href="/login">
+                <Nav.Link eventKey={2} as={Link} to="/login">
                   Login
                 </Nav.Link>
               )}
