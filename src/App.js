@@ -10,10 +10,14 @@ import Login from "./Pages/Login/Login/Login";
 import Register from "./Pages/Login/Register/Register";
 import RequireAuth from "./Pages/Login/RequireAuth/RequireAuth";
 import CheckOut from "./Pages/CheckOut/CheckOut/CheckOut";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <div className="App">
+      <div>
+        <Toaster />
+      </div>
       <Header></Header>
       <Routes>
         <Route path="/home" element={<Home></Home>}></Route>

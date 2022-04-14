@@ -1,8 +1,20 @@
 import React, { useRef } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  useSendPasswordResetEmail,
+  useSignInWithEmailAndPassword,
+} from "react-firebase-hooks/auth";
+import toast from "react-hot-toast";
+import {
+  Link as button,
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
+// import { Toast } from "react-toastify/dist/components";
 import auth from "../../../firebase.init";
+import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
@@ -11,9 +23,14 @@ const Login = () => {
   const navigate = useNavigate();
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
+  const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
   const location = useLocation();
+
   let from = location.state?.from?.pathname || "/home";
 
+  if (loading || sending) {
+    return <Loading></Loading>;
+  }
   if (user) {
     navigate(from, { replace: true });
   }
@@ -24,11 +41,27 @@ const Login = () => {
     const password = passwordRef.current.value;
     signInWithEmailAndPassword(email, password);
   };
-
+  const resetPass = async () => {
+    const email = emailRef.current.value;
+    await sendPasswordResetEmail(email);
+    if (email) {
+      toast.success("email Sent");
+    } else {
+      toast.error("Please enter email address");
+    }
+    // Toast("Email Sent!");
+    // alert("Sent email");
+  };
   const navigateRegister = (e) => {
     e.preventDefault();
     navigate("/register");
   };
+
+  let errorElement;
+  if (error) {
+    errorElement = <p className="text-danger">Error: {error?.message}</p>;
+  }
+
   return (
     <div className="container w-50 mx-auto">
       <h2 className="text-primary text-center mt-3">Login</h2>
@@ -51,11 +84,21 @@ const Login = () => {
           />
         </Form.Group>
 
-        {loading && <p>Loading...</p>}
+        {loading && <Loading></Loading>}
+        {errorElement}
         <Button variant="primary" type="submit">
           Login
         </Button>
       </Form>
+      <p>
+        Forget password!!
+        <button
+          className="btn btn-link text-danger p-2 pe-auto text-decoration-none"
+          onClick={resetPass}
+        >
+          Reset password
+        </button>
+      </p>
       <p>
         New to Genius Car?{" "}
         <Link
