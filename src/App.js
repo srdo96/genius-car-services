@@ -20,8 +20,23 @@ function App() {
       </div>
       <Header></Header>
       <Routes>
-        <Route path="/home" element={<Home></Home>}></Route>
-        <Route path="/" element={<Home></Home>}></Route>
+        <Route
+          path="/home"
+          element={
+            <RequireAuth>
+              <Home></Home>
+            </RequireAuth>
+          }
+        ></Route>
+
+        <Route
+          path="/"
+          element={
+            <RequireAuth>
+              <Home></Home>
+            </RequireAuth>
+          }
+        ></Route>
         <Route
           path="/service/:serviceId"
           element={<ServiceDetail></ServiceDetail>}
