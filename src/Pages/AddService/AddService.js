@@ -7,7 +7,7 @@ const AddService = () => {
   const onSubmit = (data) => {
     //   const newService
     fetch("http://localhost:5000/service", {
-      method: "POST", // or 'PUT'
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
