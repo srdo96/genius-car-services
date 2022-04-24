@@ -1,11 +1,31 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 
 const AddService = () => {
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    //   const newService
+    fetch("http://localhost:5000/service", {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("Success:", result);
+        toast.success("Add Successfully");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    // console.log(data);
+  };
   return (
     <div className="w-50 mx-auto">
+      <Toaster />
       <h3>Please, Add a service</h3>
       <form className="d-flex flex-column" onSubmit={handleSubmit(onSubmit)}>
         <input
@@ -30,7 +50,7 @@ const AddService = () => {
           type="text"
           {...register("img")}
         />
-        <input className="btn btn-primary" type="submit" />
+        <input className="btn btn-primary" value="Add Service" type="submit" />
       </form>
     </div>
   );
