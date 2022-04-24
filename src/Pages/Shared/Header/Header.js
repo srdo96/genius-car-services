@@ -57,7 +57,7 @@ const Header = () => {
                     Add
                   </Nav.Link>
                   <Nav.Link as={Link} to="manage">
-                    Managae
+                    Manage
                   </Nav.Link>
                 </>
               )}
