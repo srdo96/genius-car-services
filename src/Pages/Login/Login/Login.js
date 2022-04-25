@@ -35,9 +35,7 @@ const Login = () => {
   if (loading || sending) {
     return <Loading></Loading>;
   }
-  if (user) {
-    // navigate(from, { replace: true });
-  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -47,7 +45,6 @@ const Login = () => {
     const { data } = await axios.post("http://localhost:5000/login", { email });
     localStorage.setItem("accessToken", data.accessToken);
     navigate(from, { replace: true });
-    console.log(data);
   };
   const resetPass = async () => {
     const email = emailRef.current.value;
