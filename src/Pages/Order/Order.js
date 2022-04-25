@@ -30,6 +30,7 @@ const Order = () => {
         console.error(error.message);
         if (error.response.status === 401 || error.response.status === 403) {
           signOut(auth);
+          console.log("logout");
           navigate("/login");
         }
       }
@@ -38,8 +39,13 @@ const Order = () => {
   }, [user]);
 
   return (
-    <div>
+    <div className="w-50 mx-auto">
       <h2>Your Orders: {orders.length}</h2>
+      {orders.map((o) => (
+        <div key={o._id}>
+          <p>{o.service}</p>
+        </div>
+      ))}
     </div>
   );
 };

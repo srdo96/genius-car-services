@@ -20,6 +20,7 @@ import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import PageTitle from "../../Shared/PageTitle/PageTitle";
 import axios from "axios";
+import useToken from "../../../hooks/useToken";
 
 const Login = () => {
   const emailRef = useRef("");
@@ -32,23 +33,20 @@ const Login = () => {
 
   let from = location.state?.from?.pathname || "/home";
 
+  const [token] = useToken(user);
+
   if (loading || sending) {
     return <Loading></Loading>;
   }
-
+  if (token) {
+    navigate(from, { replace: true });
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     await signInWithEmailAndPassword(email, password);
-    const { data } = await axios.post(
-      "https://sheltered-everglades-57475.herokuapp.com/login",
-      { email }
-    );
-    localStorage.setItem("accessToken", data.accessToken);
-
-    navigate(from, { replace: true });
   };
   const resetPass = async () => {
     const email = emailRef.current.value;
