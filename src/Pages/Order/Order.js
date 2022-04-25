@@ -15,7 +15,7 @@ const Order = () => {
     const getOrders = async () => {
       const email = user.email;
       console.log(email);
-      const url = `http://localhost:5000/order?email=${email}`;
+      const url = `https://sheltered-everglades-57475.herokuapp.com/order?email=${email}`;
       try {
         //   axios with headers
         /* const { data } = await axios.get(url, {

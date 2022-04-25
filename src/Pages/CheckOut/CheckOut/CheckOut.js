@@ -20,14 +20,16 @@ const CheckOut = () => {
       address: e.target.address.value,
       phone: e.target.phone.value,
     };
-    axios.post("http://localhost:5000/order", order).then((res) => {
-      console.log(res);
-      const { data } = res;
-      if (data.insertedId) {
-        toast.success("Your order is booked!!!");
-        e.target.reset();
-      }
-    });
+    axios
+      .post("https://sheltered-everglades-57475.herokuapp.com/order", order)
+      .then((res) => {
+        console.log(res);
+        const { data } = res;
+        if (data.insertedId) {
+          toast.success("Your order is booked!!!");
+          e.target.reset();
+        }
+      });
   };
 
   /*  // user data
