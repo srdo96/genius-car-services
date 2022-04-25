@@ -13,6 +13,7 @@ import CheckOut from "./Pages/CheckOut/CheckOut/CheckOut";
 import { Toaster } from "react-hot-toast";
 import AddService from "./Pages/AddService/AddService";
 import ManageServices from "./Pages/ManageServices/ManageServices";
+import Order from "./Pages/Order/Order";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
             </RequireAuth>
           }
         ></Route>
+        <Route path="orders" element={<Order></Order>}></Route>
         <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
       <Footer></Footer>
