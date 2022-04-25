@@ -1,11 +1,26 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import useServiceDetail from "../../../hooks/useServiceDetail";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../../firebase.init";
 
 const CheckOut = () => {
   const { serviceId } = useParams();
   const [service] = useServiceDetail(serviceId);
-  // user data
+  const [user] = useAuthState(auth);
+
+  const handlePlaceOrder = (e) => {
+    e.preventDefault();
+    const order = {
+      email: user.email,
+      service: service.name,
+      serviceId: serviceId,
+      address: e.target.address.value,
+      phone: e.target.phone.value,
+    };
+  };
+
+  /*  // user data
   const [user, setUser] = useState({
     name: "Sakib Rahman",
     email: "info@sakib.com",
@@ -21,18 +36,20 @@ const CheckOut = () => {
     const newUser = { address: newAddress, ...rest };
     setUser(newUser);
     console.log(newUser);
-  };
+  }; */
   return (
     <div className="text-center pt-5 w-50 mx-auto">
       <h2>Please Order:</h2>
       <h3>{service.name}</h3>
-      <form>
+      <form onSubmit={handlePlaceOrder}>
         <input
           className="w-100 mb-2"
           type="text"
           name="name"
           placeholder="Name"
-          value={user.name}
+          value={user.displayName}
+          readOnly
+          disabled
           required
         />
         <br />
@@ -42,6 +59,7 @@ const CheckOut = () => {
           name="email"
           placeholder="Email"
           value={user.email}
+          disabled
           required
         />
         <br />
@@ -59,8 +77,7 @@ const CheckOut = () => {
           type="text"
           name="address"
           placeholder="Address"
-          value={user.address}
-          onChange={handleAddressChange}
+          autoComplete="off"
           required
         />
         <br />
@@ -69,7 +86,6 @@ const CheckOut = () => {
           type="text"
           name="phone"
           placeholder="Phone"
-          value={user.phone}
           required
         />
         <br />
