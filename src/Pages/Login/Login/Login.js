@@ -19,6 +19,7 @@ import auth from "../../../firebase.init";
 import Loading from "../../Shared/Loading/Loading";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import PageTitle from "../../Shared/PageTitle/PageTitle";
+import axios from "axios";
 
 const Login = () => {
   const emailRef = useRef("");
@@ -35,14 +36,18 @@ const Login = () => {
     return <Loading></Loading>;
   }
   if (user) {
-    navigate(from, { replace: true });
+    // navigate(from, { replace: true });
   }
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    signInWithEmailAndPassword(email, password);
+    await signInWithEmailAndPassword(email, password);
+    const { data } = await axios.post("http://localhost:5000/login", { email });
+    localStorage.setItem("accessToken", data.accessToken);
+    navigate(from, { replace: true });
+    console.log(data);
   };
   const resetPass = async () => {
     const email = emailRef.current.value;
