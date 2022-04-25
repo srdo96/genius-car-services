@@ -17,19 +17,9 @@ import ManageServices from "./Pages/ManageServices/ManageServices";
 function App() {
   return (
     <div className="App">
-      <div>
-        <Toaster />
-      </div>
       <Header></Header>
       <Routes>
-        <Route
-          path="/home"
-          element={
-            <RequireAuth>
-              <Home></Home>
-            </RequireAuth>
-          }
-        ></Route>
+        <Route path="/home" element={<Home></Home>}></Route>
 
         <Route
           path="/"
@@ -75,6 +65,7 @@ function App() {
         <Route path="*" element={<NotFound></NotFound>}></Route>
       </Routes>
       <Footer></Footer>
+      <Toaster />
     </div>
   );
 }

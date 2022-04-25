@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import useServiceDetail from "../../../hooks/useServiceDetail";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const CheckOut = () => {
   const { serviceId } = useParams();
@@ -18,6 +20,14 @@ const CheckOut = () => {
       address: e.target.address.value,
       phone: e.target.phone.value,
     };
+    axios.post("http://localhost:5000/order", order).then((res) => {
+      console.log(res);
+      const { data } = res;
+      if (data.insertedId) {
+        toast.success("Your order is booked!!!");
+        e.target.reset();
+      }
+    });
   };
 
   /*  // user data
@@ -40,14 +50,14 @@ const CheckOut = () => {
   return (
     <div className="text-center pt-5 w-50 mx-auto">
       <h2>Please Order:</h2>
-      <h3>{service.name}</h3>
+      <h3>{service?.name}</h3>
       <form onSubmit={handlePlaceOrder}>
         <input
           className="w-100 mb-2"
           type="text"
           name="name"
           placeholder="Name"
-          value={user.displayName}
+          value={user?.displayName}
           readOnly
           disabled
           required
@@ -58,7 +68,7 @@ const CheckOut = () => {
           type="email"
           name="email"
           placeholder="Email"
-          value={user.email}
+          value={user?.email}
           disabled
           required
         />
@@ -67,8 +77,9 @@ const CheckOut = () => {
           className="w-100 mb-2"
           type="text"
           name="service"
-          value={service.name}
+          value={service?.name}
           placeholder="Service"
+          readOnly
           required
         />
         <br />
